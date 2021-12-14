@@ -34,6 +34,8 @@ private:
     void buttonClicked (juce::Button *button) override;
     
     void buttonStateChanged (juce::Button *button) override;
+    
+    int prevButtonState;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaterphonePluginAudioProcessorEditor)
 };

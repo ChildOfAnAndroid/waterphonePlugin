@@ -32,11 +32,12 @@ WaterphonePluginAudioProcessor::WaterphonePluginAudioProcessor()
     ///Users/cmale/Documents/GitHub/Degree-Tasks/CAMT503/Week 5/KeyboardSynthesiser/Sound Samples/piano-A3.wav
     
     synth.clearSounds();
-    juce::File soundSample("/Users/cmale/Documents/GitHub/Degree-Tasks/CAMT503/Week 5/KeyboardSynthesiser/Sound Samples/piano-A3.wav");
+    juce::File soundSample("/Users/charis/Documents/GitHub/Degree-Tasks/CAMT503/Week 5/KeyboardSynthesiser/Sound Samples/piano-A3.wav");
     std::unique_ptr<juce::AudioFormatReader>
     audioReader(formatManager.createReaderFor(soundSample));
     
-    juce::BigInteger(0, 128, true);
+    juce::BigInteger allNotes;
+    allNotes.setRange(0, 128, true);
     
     synth.addSound(new juce::SamplerSound("Piano",
                                           *audioReader,
@@ -120,7 +121,7 @@ void WaterphonePluginAudioProcessor::prepareToPlay (double sampleRate, int sampl
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     
-    synth.setCrrentPlaybackSampleRate(sampleRate);
+    synth.setCurrentPlaybackSampleRate(sampleRate);
     midiMessageCollector.reset(sampleRate);
     
 }
