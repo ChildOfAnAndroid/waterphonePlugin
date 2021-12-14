@@ -50,7 +50,10 @@ void WaterphonePluginAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
     
-    shapeButton.setTopLeftPosition(getWidth() / 2, getHeight() / 2); //centers the shape button
+    //shapeButton.setTopLeftPosition(getWidth() / 2, ((getHeight()) - (getHeight()/10))); //centers the shape button
+    
+    shapeButton.setTopLeftPosition(getWidth()/2,getHeight()*0.03);
+    
     
 }
 
