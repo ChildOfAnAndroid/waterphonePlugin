@@ -22,8 +22,32 @@ WaterphonePluginAudioProcessor::WaterphonePluginAudioProcessor()
                        )
 #endif
 {
+    
+    formatManager.registerBasicFormats();
+    
+    for (auto i = 0; i < 5; i++)
+        synth.addVoice(new juce::SamplerVoice());
+    
+    //Load Sounds
+    ///Users/cmale/Documents/GitHub/Degree-Tasks/CAMT503/Week 5/KeyboardSynthesiser/Sound Samples/piano-A3.wav
+    
+    synth.clearSounds();
+    juce::File soundSample("/Users/cmale/Documents/GitHub/Degree-Tasks/CAMT503/Week 5/KeyboardSynthesiser/Sound Samples/piano-A3.wav");
+    std::unique_ptr<juce::AudioFormatReader>
+    audioReader(formatManager.createReaderFor(soundSample));
+    
+    juce::BigInteger(0, 128, true);
+    
+    synth.addSound(new juce::SamplerSound("Piano",
+                                          *audioReader,
+                                          allNotes,
+                                          49,
+                                          0.01,
+                                          0.01,
+                                          10.0));
+    
+    
 }
-
 WaterphonePluginAudioProcessor::~WaterphonePluginAudioProcessor()
 {
 }
@@ -95,6 +119,10 @@ void WaterphonePluginAudioProcessor::prepareToPlay (double sampleRate, int sampl
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    
+    synth.setCrrentPlaybackSampleRate(sampleRate);
+    midiMessageCollector.reset(sampleRate);
+    
 }
 
 void WaterphonePluginAudioProcessor::releaseResources()
@@ -156,6 +184,12 @@ void WaterphonePluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
 
         // ..do something to the data...
     }
+    
+    midiMessageCollector.removeNextBlockOfMessages(midiMessages, buffer.getNumSamples());
+    
+    auto audioBusBuffer = getBusBuffer(buffer, false, 0);
+    
+    synth.renderNextBlock(audioBusBuffer, midiMessages, 0, audioBusBuffer.getNumSamples());
 }
 
 //==============================================================================

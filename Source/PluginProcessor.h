@@ -52,8 +52,15 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    juce::midiMessageCollector& getMidiMessageCollector() noexcept (return midiMessageCollector; );
 
 private:
     //==============================================================================
+    
+    juce::MidiMessageCollector midiMessageCollector;
+    juce::Synthesiser synth;
+    juce::AudioFormatManager formatManager;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaterphonePluginAudioProcessor)
 };
