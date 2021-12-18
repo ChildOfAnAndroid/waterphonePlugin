@@ -15,6 +15,7 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+    
     setSize (1000, 400);
     
     float bellWidth = 5.0f;
@@ -34,15 +35,37 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
     //juce::Path buttonShape;
     //buttonShape.addRectangle(0, 0, bellWidth, centreBellHeight);
     
-    //POTENTIOMETER
+    //POTENTIOMETERS
+    
+    //air pot
     addAndMakeVisible (&airPot);
     airPot.setSliderStyle (juce::Slider::Rotary);
     airPot.setRange (0.0f, 12.0f, 0.01f); //Bottom of the pot is 0, top of the pot is 12
     airPot.setValue (0.0f);
     airPot.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 150, 25);
-    airPot.setTextValueSuffix ("AIR");
+    airPot.setTextValueSuffix (" AIR");
     //airPot.setSkewFactor(2);
     airPot.addListener (this);
+    
+    //water pot
+    addAndMakeVisible (&waterPot);
+    waterPot.setSliderStyle (juce::Slider::Rotary);
+    waterPot.setRange (0.0f, 12.0f, 0.01f); //Bottom of the pot is 0, top of the pot is 12
+    waterPot.setValue (0.0f);
+    waterPot.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 150, 25);
+    waterPot.setTextValueSuffix (" WATER");
+    //waterPot.setSkewFactor(2);
+    waterPot.addListener (this);
+    
+    //dissonance pot
+    addAndMakeVisible (&dissonancePot);
+    dissonancePot.setSliderStyle (juce::Slider::Rotary);
+    dissonancePot.setRange (0.0f, 12.0f, 0.01f); //Bottom of the pot is 0, top of the pot is 12
+    dissonancePot.setValue (0.0f);
+    dissonancePot.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 150, 25);
+    dissonancePot.setTextValueSuffix (" DISSONANCE");
+    //dissonancePot.setSkewFactor(2);
+    dissonancePot.addListener (this);
 
 }
 
@@ -58,7 +81,7 @@ void WaterphonePluginAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    g.drawFittedText ("Waterphone Plugin", getLocalBounds(), juce::Justification::topLeft, 1);
 }
 
 void WaterphonePluginAudioProcessorEditor::resized()
@@ -98,7 +121,11 @@ void WaterphonePluginAudioProcessorEditor::resized()
     //}
     
     //POTENTIOMETER POSITIONING
-    airPot.setBounds (10, getHeight() / 2 - 50, 150, 150);
+    airPot.setBounds (75, getHeight() / 2 + 30, 150, 150);
+    waterPot.setBounds (425, getHeight() / 2 + 30, 150, 150);
+    dissonancePot.setBounds (775, getHeight() / 2 + 30, 150, 150);
+    
+    //airPot.setBounds(<#int x#>, <#int y#>, <#int width#>, <#int height#>)
     
 }
 
