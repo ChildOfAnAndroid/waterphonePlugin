@@ -19,22 +19,31 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
     
     setSize (1000, 400);
     
-    float bellWidth = 5.0f;
+    //BELL BUTTONS
+    float bellWidth = 10.0f;
     float centreBellHeight = getHeight()/2;
+    auto xPos = getWidth() / 2;
+    auto yPos = getHeight() * 0.03;
+    auto xDistance = 30;
+    //int test = 0;
+
+    //int buttonRange[] = { 0, 1, 2, 3, 4, 5 };
+    
     juce::Path buttonShape;
+
+    for (int i = 0; i < 15; i++)
+    {
+        //centreBellHeight = centreBellHeight - xDistance;
+        buttonShape.addRectangle(0, 0, bellWidth, centreBellHeight); //RECTANGLE
+        juce::ShapeButton* button = new juce::ShapeButton("Shape Button_" + std::to_string(i), juce::Colours::purple, juce::Colours::black, juce::Colours::blue);
+        button->setShape(buttonShape, true, true, false);
+        button->addListener(this);
+        button->setTopLeftPosition(xPos, yPos);
+        xPos += xDistance;
+        addAndMakeVisible(*button);
+        buttons.add(button);
+    }
     
-    buttonShape.addRectangle(0, 0, bellWidth, centreBellHeight); //RECTANGLE position of button dictated in resized function below
-    
-    //buttonShape.addEllipse(0, 0, bellWidth, centreBellHeight); //CIRCLE
-    
-    bellButton.setShape(buttonShape, true, true, false);
-    //addAndMakeVisible(&bellButton);
-    
-    bellButton.addListener(this);
-    
-    //BUTTON 2
-    //juce::Path buttonShape;
-    //buttonShape.addRectangle(0, 0, bellWidth, centreBellHeight);
     
     //POTENTIOMETERS
     
@@ -108,18 +117,18 @@ void WaterphonePluginAudioProcessorEditor::resized()
     //bellButton.setTopLeftPosition(getWidth()/2,getHeight()*0.03);
     
     //POSITION OF SHAPE BUTTONS
-    auto xPos = getWidth()/2;
-    auto yPos = getHeight()*0.03;
-    auto yDistance = 50;
+    //auto xPos = getWidth()/2;
+    //auto yPos = getHeight()*0.03;
+    //auto yDistance = 50;
     //int test = 0;
     
     //int buttonRange[] = {0, 1, 2, 3, 4, 5};
     
     //for (auto bellButton : buttonRange)
     //{
-        bellButton.setTopLeftPosition (xPos, yPos);
-        yPos += yDistance; //defines distance between bells
-        addAndMakeVisible(&bellButton);
+        //bellButton.setTopLeftPosition (xPos, yPos);
+        //yPos += yDistance; //defines distance between bells
+        //addAndMakeVisible(&bellButton);
         
         //test++;
         //juce::Logger::writeToLog("Loop Run " + std::to_string(test));

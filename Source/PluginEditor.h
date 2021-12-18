@@ -35,6 +35,8 @@ private:
     //BELL BUTTONS
     juce::ShapeButton bellButton;
     
+    juce::OwnedArray<juce::ShapeButton> buttons;
+    
     void buttonClicked (juce::Button *button) override;
     
     void buttonStateChanged (juce::Button *button) override;
