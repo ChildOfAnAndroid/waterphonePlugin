@@ -31,8 +31,18 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
     bellButton.addListener(this);
     
     //BUTTON 2
-    //juce::Path buttonShape2;
-    //buttonShape2.addRectangle(0, 0, bellWidth, centreBellHeight);
+    //juce::Path buttonShape;
+    //buttonShape.addRectangle(0, 0, bellWidth, centreBellHeight);
+    
+    //POTENTIOMETER
+    airPot.setSliderStyle (juce::Slider::Rotary);
+    airPot.setRange (0.0f, 12.0f, 0.01f); //Bottom of the pot is 0, top of the pot is 12
+    airPot.setValue (0.0f);
+    airPot.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 150, 25);
+    airPot.setTextValueSuffix (" dB");
+    airPot.setSkewFactor(2);
+    addAndMakeVisible (&airPot);
+    airPot.addListener (this);
 
 }
 
@@ -113,6 +123,26 @@ void WaterphonePluginAudioProcessorEditor::buttonStateChanged (juce::Button *but
         message.setTimeStamp (juce::Time::getMillisecondCounterHiRes() * 0.001 - 0.0);
         audioProcessor.getMidiMessageCollector().addMessageToQueue(message);
         prevButtonState = button->getState();
+    }
+    
+}
+
+void WaterphonePluginAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)
+{
+    
+    if (airPot == &airPot)
+    {
+        audioProcessor.airPotAmount = airPot.getValue();
+    }
+    
+    else if (waterPot == &waterPot)
+    {
+        audioProcessor.waterPotAmount = waterPot.getValue();
+    }
+    
+    else if (dissonancePot == &dissonancePot)
+    {
+        audioProcessor.dissonancePotAmount = dissonancePot.getValue();
     }
     
 }

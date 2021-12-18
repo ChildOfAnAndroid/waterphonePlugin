@@ -54,6 +54,11 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
     
     juce::MidiMessageCollector& getMidiMessageCollector() noexcept {return midiMessageCollector; };
+    
+    //These are the values that are set by the sliders in the GUI
+    float airPotAmount { 0.5f };
+    float waterPotAmount { 0.5f };
+    float dissonancePotAmount { 0.5f };
 
 private:
     //==============================================================================
