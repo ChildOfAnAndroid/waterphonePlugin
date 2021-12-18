@@ -24,14 +24,14 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
     float centreBellHeight = getHeight()/2;
     auto xPos = getWidth() / 2;
     auto yPos = getHeight() * 0.03;
-    auto xDistance = 30;
+    auto xDistance = 45;
     //int test = 0;
 
     //int buttonRange[] = { 0, 1, 2, 3, 4, 5 };
     
     juce::Path buttonShape;
 
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 11; i++)
     {
         //centreBellHeight = centreBellHeight - xDistance;
         buttonShape.addRectangle(0, 0, bellWidth, centreBellHeight); //RECTANGLE
