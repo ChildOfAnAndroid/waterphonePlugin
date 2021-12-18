@@ -17,17 +17,23 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
     // editor's size to whatever you need it to be.
     setSize (1000, 400);
     
-    float buttonWidth = 5.0f;
-    float buttonHeight = 200.0f;
-    float buttonPositionHeight = 0.0f;
+    float bellWidth = 5.0f;
+    float centreBellHeight = getHeight()/2;
     juce::Path buttonShape;
-    buttonShape.addRectangle(0, buttonPositionHeight, buttonWidth, buttonHeight); //RECTANGLE position of button (0, 0) center of screen
-    //buttonShape.addEllipse(0, 0, buttonSize, buttonSize); //CIRCLE
+    
+    buttonShape.addRectangle(0, 0, bellWidth, centreBellHeight); //RECTANGLE position of button dictated in resized function below
+    
+    //buttonShape.addEllipse(0, 0, bellWidth, centreBellHeight); //CIRCLE
     
     shapeButton.setShape(buttonShape, true, true, false);
-    addAndMakeVisible(&shapeButton);
+    //addAndMakeVisible(&shapeButton);
     
     shapeButton.addListener(this);
+    
+    //BUTTON 2
+    //juce::Path buttonShape2;
+    //buttonShape2.addRectangle(0, 0, bellWidth, centreBellHeight);
+
 }
 
 WaterphonePluginAudioProcessorEditor::~WaterphonePluginAudioProcessorEditor()
@@ -50,10 +56,36 @@ void WaterphonePluginAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
     
-    //shapeButton.setTopLeftPosition(getWidth() / 2, ((getHeight()) - (getHeight()/10))); //centers the shape button
+    //POSITION OF SHAPE BUTTON (simple)
+    //shapeButton.setTopLeftPosition(getWidth()/2,getHeight()*0.03);
     
-    shapeButton.setTopLeftPosition(getWidth()/2,getHeight()*0.03);
+    //POSITION OF SHAPE BUTTONS
+    auto xPos = getWidth()/2;
+    auto yPos = getHeight()*0.03;
+    auto yDistance = 50;
+    int test = 0;
     
+    int buttonRange[] = {0, 1, 2, 3, 4, 5};
+    
+    for (auto shapeButton : buttonRange)
+    {
+        shapeButton.setTopLeftPosition (xPos, yPos);
+        yPos += yDistance;
+        addAndMakeVisible(&shapeButton);
+        
+        test++;
+        juce::Logger::writeToLog("Loop Run " + std::to_string(test));
+        //the loop is working and will print to terminal 6 times
+        //comment out for loop to place only one button, cannot call functions inside of loop for some reason
+    }
+
+    //NOTES FROM PLUCKEDSTRINGDEMO
+    //for (auto stringLine : stringLines)
+    //{
+    //    stringLine->setTopLeftPosition (xPos, yPos);
+    //    yPos += yDistance;
+    //    addAndMakeVisible (stringLine);
+    //}
     
 }
 
