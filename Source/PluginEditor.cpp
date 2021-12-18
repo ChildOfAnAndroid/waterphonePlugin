@@ -21,19 +21,19 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
     
     //BELL BUTTONS
     float bellWidth = 10.0f;
-    float centreBellHeight = getHeight()/2;
-    auto xPos = getWidth() / 2;
-    auto yPos = getHeight() * 0.03;
-    auto xDistance = 45;
+    float centreBellHeight = getHeight()/2 - 30;
+    auto xPos = getWidth() / 2.0f;
+    auto yPos = getHeight() * 0.03f;
+    auto xDistance = 45.0f;
     //int test = 0;
 
     //int buttonRange[] = { 0, 1, 2, 3, 4, 5 };
     
-    juce::Path buttonShape;
 
     for (int i = 0; i < 11; i++)
     {
-        //centreBellHeight = centreBellHeight - xDistance;
+        juce::Path buttonShape;
+        centreBellHeight -= (i - 6.0f) * 5.0f;
         buttonShape.addRectangle(0, 0, bellWidth, centreBellHeight); //RECTANGLE
         juce::ShapeButton* button = new juce::ShapeButton("Shape Button_" + std::to_string(i), juce::Colours::purple, juce::Colours::black, juce::Colours::blue);
         button->setShape(buttonShape, true, true, false);
@@ -43,6 +43,8 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
         addAndMakeVisible(*button);
         buttons.add(button);
     }
+    
+    //buttonShape.addRectangle(<#float x#>, <#float y#>, <#float width#>, <#float height#>)
     
     
     //POTENTIOMETERS
