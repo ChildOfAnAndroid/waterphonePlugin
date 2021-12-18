@@ -67,15 +67,6 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
     dissonancePot.setTextValueSuffix (" DISSONANCE");
     //dissonancePot.setSkewFactor(2);
     dissonancePot.addListener (this);
-    
-    
-    //float y = 100;
-    //float amplitude = 5;
-    //float phase = 5;
-    //float length = 100;
-    
-    //juce::Path bellPath;
-    //bellPath.quadraticTo ((float) length / 2.0f, y + (std::sin (phase) * amplitude), (float) length, y);
 
 }
 
@@ -93,7 +84,7 @@ void WaterphonePluginAudioProcessorEditor::paint (juce::Graphics& g)
     g.setFont (15.0f);
     g.drawFittedText ("Waterphone Plugin", getLocalBounds(), juce::Justification::topLeft, 1);
     
-    //BUTTON ANIMATION ATTEMPT
+    //BUTTON ANIMATION ATTEMPT (currently just makes line)
     auto xPos = getWidth()/2;
     auto yPos = getHeight()*0.03;
     float bellWidth = 5.0f;
