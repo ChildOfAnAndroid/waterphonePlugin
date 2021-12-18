@@ -29,7 +29,7 @@ private:
     // access the processor object that created it.
     WaterphonePluginAudioProcessor& audioProcessor;
     
-    juce::ShapeButton shapeButton;
+    juce::ShapeButton bellButton;
     
     void buttonClicked (juce::Button *button) override;
     

@@ -11,7 +11,7 @@
 
 //==============================================================================
 WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (WaterphonePluginAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), shapeButton("Shape Button", juce::Colours::purple, juce::Colours::black, juce::Colours::blue), prevButtonState(0)
+    : AudioProcessorEditor (&p), audioProcessor (p), bellButton("Shape Button", juce::Colours::purple, juce::Colours::black, juce::Colours::blue), prevButtonState(0)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -25,10 +25,10 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
     
     //buttonShape.addEllipse(0, 0, bellWidth, centreBellHeight); //CIRCLE
     
-    shapeButton.setShape(buttonShape, true, true, false);
-    //addAndMakeVisible(&shapeButton);
+    bellButton.setShape(buttonShape, true, true, false);
+    //addAndMakeVisible(&bellButton);
     
-    shapeButton.addListener(this);
+    bellButton.addListener(this);
     
     //BUTTON 2
     //juce::Path buttonShape2;
@@ -57,27 +57,27 @@ void WaterphonePluginAudioProcessorEditor::resized()
     // subcomponents in your editor..
     
     //POSITION OF SHAPE BUTTON (simple)
-    //shapeButton.setTopLeftPosition(getWidth()/2,getHeight()*0.03);
+    //bellButton.setTopLeftPosition(getWidth()/2,getHeight()*0.03);
     
     //POSITION OF SHAPE BUTTONS
     auto xPos = getWidth()/2;
     auto yPos = getHeight()*0.03;
     auto yDistance = 50;
-    int test = 0;
+    //int test = 0;
     
-    int buttonRange[] = {0, 1, 2, 3, 4, 5};
+    //int buttonRange[] = {0, 1, 2, 3, 4, 5};
     
-    for (auto shapeButton : buttonRange)
-    {
-        shapeButton.setTopLeftPosition (xPos, yPos);
-        yPos += yDistance;
-        addAndMakeVisible(&shapeButton);
+    //for (auto bellButton : buttonRange)
+    //{
+        bellButton.setTopLeftPosition (xPos, yPos);
+        yPos += yDistance; //defines distance between bells
+        addAndMakeVisible(&bellButton);
         
-        test++;
-        juce::Logger::writeToLog("Loop Run " + std::to_string(test));
+        //test++;
+        //juce::Logger::writeToLog("Loop Run " + std::to_string(test));
         //the loop is working and will print to terminal 6 times
         //comment out for loop to place only one button, cannot call functions inside of loop for some reason
-    }
+    //}
 
     //NOTES FROM PLUCKEDSTRINGDEMO
     //for (auto stringLine : stringLines)
