@@ -17,6 +17,7 @@
 class WaterphonePluginAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Button::Listener, public juce::Slider::Listener
 {
 public:
+    
     WaterphonePluginAudioProcessorEditor (WaterphonePluginAudioProcessor&);
     ~WaterphonePluginAudioProcessorEditor() override;
 

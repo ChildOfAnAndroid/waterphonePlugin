@@ -9,6 +9,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+
 //==============================================================================
 WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (WaterphonePluginAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p), bellButton("Shape Button", juce::Colours::purple, juce::Colours::black, juce::Colours::blue), prevButtonState(0)
@@ -66,6 +67,15 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
     dissonancePot.setTextValueSuffix (" DISSONANCE");
     //dissonancePot.setSkewFactor(2);
     dissonancePot.addListener (this);
+    
+    
+    //float y = 100;
+    //float amplitude = 5;
+    //float phase = 5;
+    //float length = 100;
+    
+    //juce::Path bellPath;
+    //bellPath.quadraticTo ((float) length / 2.0f, y + (std::sin (phase) * amplitude), (float) length, y);
 
 }
 
@@ -82,6 +92,20 @@ void WaterphonePluginAudioProcessorEditor::paint (juce::Graphics& g)
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
     g.drawFittedText ("Waterphone Plugin", getLocalBounds(), juce::Justification::topLeft, 1);
+    
+    //BUTTON ANIMATION ATTEMPT
+    auto xPos = getWidth()/2;
+    auto yPos = getHeight()*0.03;
+    float bellWidth = 5.0f;
+    float centreBellHeight = getHeight()/2;
+    
+    juce::Path bellPath;
+    
+    bellPath.startNewSubPath (xPos, yPos);
+    //bellPath.lineTo(xPos, yPos+centreBellHeight);
+    bellPath.quadraticTo(xPos, yPos, xPos, yPos+centreBellHeight);
+    
+    g.strokePath (bellPath, juce::PathStrokeType (2.0f));
 }
 
 void WaterphonePluginAudioProcessorEditor::resized()
