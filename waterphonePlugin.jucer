@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="sS3NOb" name="waterphonePlugin" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
   <MAINGROUP id="Wghf6t" name="waterphonePlugin">
     <GROUP id="{1DC63D78-C3C3-BF1C-642D-3334F4401A74}" name="Source">
       <FILE id="Lg7zRA" name="PluginProcessor.cpp" compile="1" resource="0"
