@@ -26,17 +26,14 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
     //auto xPos = getWidth() / 2.0f;
     auto yPos = getHeight() * 0.03f;
     auto xDistance = 45.0f;
-    //int test = 0;
-
-    //int buttonRange[] = { 0, 1, 2, 3, 4, 5 };
     
 
     for (int i = 0; i < 21; i++)
     {
         juce::Path buttonShape;
         //centreBellHeight -= ((i - 10.0f) * 2.0f) ;
-        float centreBellHeightDec = centreBellHeight - fabs(i - 10.0f)*14; //FABS creates positive number only. we subtract 10 from i (0) and start at -10. Carry on incrementing i until 10-10 hits 0, then slowly goes up to 10. fabs turns -10 into +10 creating triangle.
-        buttonShape.addRectangle(0, 0, bellWidth, centreBellHeightDec); //RECTANGLE
+        float decrementBellHeight = centreBellHeight - fabs(i - 10.0f)*14; //FABS creates positive number only. we subtract 10 from i (0) and start at -10. Carry on incrementing i until 10-10 hits 0, then slowly goes up to 10. fabs turns -10 into +10 creating triangle.
+        buttonShape.addRectangle(0, 0, bellWidth, decrementBellHeight); //RECTANGLE
         juce::ShapeButton* button = new juce::ShapeButton("Shape Button_" + std::to_string(i), juce::Colours::purple, juce::Colours::black, juce::Colours::blue);
         button->setShape(buttonShape, true, true, false);
         button->addListener(this);
@@ -109,7 +106,7 @@ void WaterphonePluginAudioProcessorEditor::paint (juce::Graphics& g)
     //bellPath.lineTo(xPos, yPos+centreBellHeight);
     bellPath.quadraticTo(xPos, yPos, xPos, yPos+centreBellHeight);
     
-    g.strokePath (bellPath, juce::PathStrokeType (2.0f));
+    g.strokePath (bellPath, juce::PathStrokeType (bellWidth));
 }
 
 void WaterphonePluginAudioProcessorEditor::resized()
