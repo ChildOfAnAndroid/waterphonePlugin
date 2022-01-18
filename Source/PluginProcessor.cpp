@@ -49,7 +49,7 @@ WaterphonePluginAudioProcessor::WaterphonePluginAudioProcessor()
     
     //SOUND PROGRAMMING
     //add voices and sound to the sinSynth object
-    for (auto i = 0; i < 5; i++)
+    for (auto i = 0; i < 5; i++) //creates polyphony of 5
     {
         sinSynth.addVoice(new SineWaveVoice());
     }
@@ -198,6 +198,16 @@ void WaterphonePluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
         // ..do something to the data...
     }
     
+    for (int i = 0; i < sinSynth.getNumVoices(); ++i)
+    {
+        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(sinSynth.getVoice(i)))
+        {
+            //OSC Controls
+            //ADSR
+            //LFO
+        }
+    }
+    
     midiMessageCollector.removeNextBlockOfMessages(midiMessages, buffer.getNumSamples());
     
     auto audioBusBuffer = getBusBuffer(buffer, false, 0);
@@ -269,7 +279,7 @@ void SineWaveVoice::startNote (int midiNoteNumber, float velocity, juce::Synthes
     tailOff = 0.0;
     
     auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-    auto cyclesPerSample = cyclesPerSecond / getSampleRate();
+    auto cyclesPerSample = cyclesPerSecond / getSampleRate();  //GENERATES PITCH FOR SIN WAVE
     
     angleDelta = cyclesPerSample * 2.0 * juce::MathConstants<double>::pi;
 }
@@ -310,7 +320,13 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
         {
             while (--numSamples >= 0)
             {
-                auto currentSample = (float)((std::sin(currentAngle) + std::sin(1.5*currentAngle)) * tailOff * level);
+                auto currentSample = (float) ((std::sin(currentAngle) + std::sin(1.5*currentAngle)) //+
+                                              //(std::sin(currentAngle) + std::sin(1.4*currentAngle)) +
+                                              //(std::sin(currentAngle) + std::sin(1.3*currentAngle)) +
+                                              //(std::sin(currentAngle) + std::sin(1.2*currentAngle)) +
+                                              //(std::sin(currentAngle) + std::sin(1.1*currentAngle)) +
+                                              //(std::sin(currentAngle) + std::sin(1.0*currentAngle))
+                                              * tailOff * level);
                 
                 for (auto i = outputBuffer.getNumChannels();--i >=0;)
                 {
@@ -335,7 +351,13 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
         {
             while (--numSamples >= 0)
             {
-                auto currentSample = (float)((std::sin(currentAngle) + std::sin(1.5*currentAngle)) * level);
+                auto currentSample = (float)((std::sin(currentAngle) + std::sin(1.5*currentAngle)) //+
+                                             //(std::sin(currentAngle) + std::sin(1.4*currentAngle)) +
+                                             //(std::sin(currentAngle) + std::sin(1.3*currentAngle)) +
+                                             //(std::sin(currentAngle) + std::sin(1.2*currentAngle)) +
+                                             //(std::sin(currentAngle) + std::sin(1.1*currentAngle)) +
+                                             //(std::sin(currentAngle) + std::sin(1.0*currentAngle))
+                                             * level);
                 
                 for (auto i = outputBuffer.getNumChannels();--i >=0;)
                 {
