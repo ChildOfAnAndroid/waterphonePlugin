@@ -34,7 +34,7 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
         //centreBellHeight -= ((i - 10.0f) * 2.0f) ;
         float decrementBellHeight = centreBellHeight - fabs(i - 10.0f)*14; //FABS creates positive number only. we subtract 10 from i (0) and start at -10. Carry on incrementing i until 10-10 hits 0, then slowly goes up to 10. fabs turns -10 into +10 creating triangle.
         buttonShape.addRectangle(0, 0, bellWidth, decrementBellHeight); //RECTANGLE
-        juce::ShapeButton* button = new juce::ShapeButton("Shape Button_" + std::to_string(i), juce::Colours::purple, juce::Colours::black, juce::Colours::blue);
+        juce::ShapeButton* button = new juce::ShapeButton(std::to_string(i), juce::Colours::purple, juce::Colours::black, juce::Colours::blue);
         button->setShape(buttonShape, true, true, false);
         button->addListener(this);
         button->setTopLeftPosition(xPos, yPos);
@@ -166,7 +166,18 @@ void WaterphonePluginAudioProcessorEditor::buttonStateChanged (juce::Button *but
     
     if (button->getState() == 2)
     {
-        auto message = juce::MidiMessage::noteOn (1, 49, (juce::uint8) 100);
+        
+        
+        // The below line prints the button name
+        juce::String name = button->getName();
+
+
+        juce::Logger::writeToLog("Button name: " + name);
+        
+        int button_number = name.getIntValue(); 
+
+        auto message = juce::MidiMessage::noteOn(1, 69+ button_number, (juce::uint8)100);
+        
         message.setTimeStamp (juce::Time::getMillisecondCounterHiRes() * 0.001 - 0.0);
         audioProcessor.getMidiMessageCollector().addMessageToQueue(message);
         prevButtonState = button->getState();
@@ -174,7 +185,15 @@ void WaterphonePluginAudioProcessorEditor::buttonStateChanged (juce::Button *but
     
     else if (button->getState() == 1 && prevButtonState == 2)
     {
-        auto message = juce::MidiMessage::noteOff (1, 49, (juce::uint8) 100);
+        // The below line prints the button name
+        juce::String name = button->getName();
+
+
+        juce::Logger::writeToLog("Button name: " + name);
+
+        int button_number = name.getIntValue();
+
+        auto message = juce::MidiMessage::noteOff (1, 69 + button_number, (juce::uint8) 100);
         message.setTimeStamp (juce::Time::getMillisecondCounterHiRes() * 0.001 - 0.0);
         audioProcessor.getMidiMessageCollector().addMessageToQueue(message);
         prevButtonState = button->getState();
