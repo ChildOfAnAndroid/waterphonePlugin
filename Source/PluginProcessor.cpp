@@ -332,6 +332,12 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
 {
     jassert (isPrepared = true);
     
+    //GETTING SLIDER VALUE FROM WATERPHONEPLUGINAUDIOPROCESSOR CLASS
+    float dissonanceSliderValue;
+    
+    //WaterphonePluginAudioProcessor waterphonePluginAudioProcessor;
+    //dissonanceSliderValue = waterphonePluginAudioProcessor.dissonancePotAmount;
+    
     if (angleDelta != 0.0)
     {
         if (tailOff > 0.0)
@@ -388,8 +394,6 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
             }
         }
     }
-    
-    
 
     //ADSR
     //adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
