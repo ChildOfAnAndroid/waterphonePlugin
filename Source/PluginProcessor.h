@@ -59,11 +59,11 @@ public:
     float airPotAmount { 0.5f };
     float waterPotAmount { 0.5f };
     
-    //SEND SLIDER VALUE TO SineWaveVoice CLASS
+    
     float dissonancePotAmount { 0.5f };
-    void setDissonancePotAmount(int dissonancePotAmount)
+    void setDissonancePotAmount(int dissonanceSlider)
     {
-        dissonancePotAmount = dissonancePotAmount;
+        dissonancePotAmount = dissonanceSlider;
     }
     int getDissonancePotAmount()
     {
@@ -110,12 +110,10 @@ struct SineWaveVoice : public juce::SynthesiserVoice
     void renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples) override;
     
     //float dissonanceSliderValue = dissonancePotAmount;
-    
-    //GET SLIDER VALUE FROM WaterphonePluginAudioProcessor CLASS
     float dissonanceSliderValue { 0.5f };
-    void setDissonanceSliderValue(int dissonancePotAmount)
+    void setDissonanceSliderValue(int dissonanceSlider)
     {
-        dissonanceSliderValue = dissonancePotAmount;
+        dissonanceSliderValue = dissonanceSlider;
     }
     int getDissonanceSliderValue()
     {
