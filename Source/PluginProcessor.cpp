@@ -388,6 +388,8 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
             }
         }
     }
+    
+    
 
     //ADSR
     //adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);

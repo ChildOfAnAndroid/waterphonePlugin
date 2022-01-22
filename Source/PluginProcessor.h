@@ -59,16 +59,19 @@ public:
     float airPotAmount { 0.5f };
     float waterPotAmount { 0.5f };
     
-    
+    //SENDING DISSONANCE SLIDER VALUE TO SINEWAVEVOICE CLASS
     float dissonancePotAmount { 0.5f };
-    void setDissonancePotAmount(int dissonanceSlider)
-    {
-        dissonancePotAmount = dissonanceSlider;
-    }
-    int getDissonancePotAmount()
-    {
-        return dissonancePotAmount;
-    }
+    
+    
+    
+    //void setDissonancePotAmount(int dissonanceSlider)
+    //{
+    //    dissonancePotAmount = dissonanceSlider;
+    //}
+    //int getDissonancePotAmount()
+    //{
+    //    return dissonancePotAmount;
+    //}
 
 private:
     //==============================================================================
@@ -109,16 +112,18 @@ struct SineWaveVoice : public juce::SynthesiserVoice
     void prepareToPlay (double sampleRate, int samplesPerBlock);
     void renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples) override;
     
-    //float dissonanceSliderValue = dissonancePotAmount;
-    float dissonanceSliderValue { 0.5f };
-    void setDissonanceSliderValue(int dissonanceSlider)
-    {
-        dissonanceSliderValue = dissonanceSlider;
-    }
-    int getDissonanceSliderValue()
-    {
-        return dissonanceSliderValue;
-    }
+    //GETTING DISSONANCE SLIDER VALUE FROM WATERPHONEPLUGINAUDIOPROCESSOR CLASS
+    //float dissonanceSliderValue { 0.5f };
+    float dissonanceSliderValue = audioProcessor.dissonancePotAmount;
+    
+    //void setDissonanceSliderValue(int dissonanceSlider)
+    //{
+    //    dissonanceSliderValue = dissonanceSlider;
+    //}
+    //int getDissonanceSliderValue()
+    //{
+    //    return dissonanceSliderValue;
+    //}
     
 private:
     double currentAngle, angleDelta, level, tailOff;

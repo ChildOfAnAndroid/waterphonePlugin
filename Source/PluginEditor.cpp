@@ -217,8 +217,7 @@ void WaterphonePluginAudioProcessorEditor::sliderValueChanged (juce::Slider* sli
     else if (slider == &dissonancePot)
     {
         audioProcessor.dissonancePotAmount = dissonancePot.getValue();
-        //SynthesiserVoice.dissonanceSliderValue = dissonancePot.getValue();
-        
+        juce::Logger::writeToLog("Dissonance Pot Amount: " + std::to_string(audioProcessor.dissonancePotAmount));
     }
     
 }
