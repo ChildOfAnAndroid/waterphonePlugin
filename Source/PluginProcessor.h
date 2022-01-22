@@ -96,9 +96,17 @@ struct SineWaveVoice : public juce::SynthesiserVoice
     void pitchWheelMoved (int newPitchWheelValue) override;
     void controllerMoved (int controllerNumber, int newControllerValue) override;
         
+    void prepareToPlay (double sampleRate, int samplesPerBlock);
     void renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples) override;
     
 private:
     double currentAngle, angleDelta, level, tailOff;
+    
+    //ADSR
+    juce::ADSR adsr;
+    juce::ADSR::Parameters adsrParams;
+    
+    bool isPrepared {false} ;
+    
 };
 //Go to pluginprocessor.cpp to define the functions

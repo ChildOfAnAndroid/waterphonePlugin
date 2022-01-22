@@ -282,6 +282,9 @@ void SineWaveVoice::startNote (int midiNoteNumber, float velocity, juce::Synthes
     auto cyclesPerSample = cyclesPerSecond / getSampleRate();  //GENERATES PITCH FOR SIN WAVE
     
     angleDelta = cyclesPerSample * 2.0 * juce::MathConstants<double>::pi;
+    
+    //ADSR
+    adsr.noteOn();
 }
 
 void SineWaveVoice::stopNote (float velocity, bool allowTailOff)
@@ -299,6 +302,9 @@ void SineWaveVoice::stopNote (float velocity, bool allowTailOff)
         clearCurrentNote();
         angleDelta = 0.0;
     }
+    
+    //ADSR
+    adsr.noteOff();
 }
 
 void SineWaveVoice::pitchWheelMoved (int newPitchWheelValue)
@@ -311,9 +317,21 @@ void SineWaveVoice::controllerMoved(int controllerNumber, int newCotrollerValue)
 
 }
 
+void SineWaveVoice::prepareToPlay(double sampleRate, int samplesPerBlock)
+{
+    //ADSR
+    adsr.setSampleRate(sampleRate);
+    adsr.setParameters(adsrParams);
+    
+    isPrepared = true;
+    
+}
+
 
 void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples)
 {
+    jassert (isPrepared = true);
+    
     if (angleDelta != 0.0)
     {
         if (tailOff > 0.0)
@@ -326,7 +344,7 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
                                             std::sin(0.99 * currentAngle) +
                                             std::sin(0.98 * currentAngle) + 
                                             std::sin(1.03 * currentAngle)
-                                              * tailOff * level));
+                                            * tailOff * level));
                 
                 for (auto i = outputBuffer.getNumChannels();--i >=0;)
                 {
@@ -357,7 +375,7 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
                                               std::sin(0.98 * currentAngle) +
                                               std::sin(0.99 * currentAngle) + 
                                               std::sin(1.03 * currentAngle)
-                                             * level));
+                                              * level));
                 
                 for (auto i = outputBuffer.getNumChannels();--i >=0;)
                 {
@@ -366,7 +384,12 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
                 
                 currentAngle += angleDelta;
                 ++startSample;
+                
             }
         }
     }
+
+    //ADSR
+    adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
+    
 }
