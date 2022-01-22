@@ -338,13 +338,13 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
         {
             while (--numSamples >= 0)
             {
-                auto currentSample = (float)((std::sin(currentAngle) +
-                                            std::sin(1.01 * currentAngle) +
-                                            std::sin(1.02 * currentAngle) +
-                                            std::sin(0.99 * currentAngle) +
-                                            std::sin(0.98 * currentAngle) + 
-                                            std::sin(1.03 * currentAngle)
-                                            * tailOff * level));
+                auto currentSample = (float)((std::sin(currentAngle)
+                                              + std::sin((0.98 + dissonanceSliderValue) * currentAngle)
+                                              + std::sin((0.99 + dissonanceSliderValue) * currentAngle)
+                                              + std::sin((1.01 + dissonanceSliderValue) * currentAngle)
+                                              + std::sin((1.02 + dissonanceSliderValue) * currentAngle)
+                                              + std::sin((1.03 + dissonanceSliderValue) * currentAngle)
+                                              * level));
                 
                 for (auto i = outputBuffer.getNumChannels();--i >=0;)
                 {
@@ -369,13 +369,13 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
         {
             while (--numSamples >= 0)
             {
-                auto currentSample = (float)((std::sin(currentAngle) + 
-                                              std::sin(1.01 * currentAngle) + 
-                                              std::sin(1.02 * currentAngle) + 
-                                              std::sin(0.98 * currentAngle) +
-                                              std::sin(0.99 * currentAngle) + 
-                                              std::sin(1.03 * currentAngle)
-                                              * level));
+                auto currentSample = (float)((std::sin(currentAngle)
+                                            + std::sin((0.98 + dissonanceSliderValue) * currentAngle)
+                                            + std::sin((0.99 + dissonanceSliderValue) * currentAngle)
+                                            + std::sin((1.01 + dissonanceSliderValue) * currentAngle)
+                                            + std::sin((1.02 + dissonanceSliderValue) * currentAngle)
+                                            + std::sin((1.03 + dissonanceSliderValue) * currentAngle)
+                                            * level));
                 
                 for (auto i = outputBuffer.getNumChannels();--i >=0;)
                 {
@@ -390,6 +390,6 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
     }
 
     //ADSR
-    adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
+    //adsr.applyEnvelopeToBuffer(outputBuffer, startSample, numSamples);
     
 }

@@ -58,7 +58,17 @@ public:
     //These are the values that are set by the sliders in the GUI
     float airPotAmount { 0.5f };
     float waterPotAmount { 0.5f };
+    
+    //SEND SLIDER VALUE TO SineWaveVoice CLASS
     float dissonancePotAmount { 0.5f };
+    void setDissonancePotAmount(int dissonancePotAmount)
+    {
+        dissonancePotAmount = dissonancePotAmount;
+    }
+    int getDissonancePotAmount()
+    {
+        return dissonancePotAmount;
+    }
 
 private:
     //==============================================================================
@@ -98,6 +108,19 @@ struct SineWaveVoice : public juce::SynthesiserVoice
         
     void prepareToPlay (double sampleRate, int samplesPerBlock);
     void renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples) override;
+    
+    //float dissonanceSliderValue = dissonancePotAmount;
+    
+    //GET SLIDER VALUE FROM WaterphonePluginAudioProcessor CLASS
+    float dissonanceSliderValue { 0.5f };
+    void setDissonanceSliderValue(int dissonancePotAmount)
+    {
+        dissonanceSliderValue = dissonancePotAmount;
+    }
+    int getDissonanceSliderValue()
+    {
+        return dissonanceSliderValue;
+    }
     
 private:
     double currentAngle, angleDelta, level, tailOff;
