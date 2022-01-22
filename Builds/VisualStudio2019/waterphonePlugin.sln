@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio Version 16
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "waterphonePlugin - Standalone Plugin", "waterphonePlugin_StandalonePlugin.vcxproj", "{1DA0F84A-14A3-DE4F-0DD6-87FFD9ADC0EC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{099CDF1E-1156-EE4D-93F2-89B44CC72EAD} = {099CDF1E-1156-EE4D-93F2-89B44CC72EAD}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "waterphonePlugin - VST3", "waterphonePlugin_VST3.vcxproj", "{7C272B35-77F6-F807-D28E-47BD0366FE24}"
+	ProjectSection(ProjectDependencies) = postProject
+		{099CDF1E-1156-EE4D-93F2-89B44CC72EAD} = {099CDF1E-1156-EE4D-93F2-89B44CC72EAD}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "waterphonePlugin - Shared Code", "waterphonePlugin_SharedCode.vcxproj", "{099CDF1E-1156-EE4D-93F2-89B44CC72EAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C272B35-77F6-F807-D28E-47BD0366FE24}.Debug|x64.ActiveCfg = Debug|x64
+		{7C272B35-77F6-F807-D28E-47BD0366FE24}.Debug|x64.Build.0 = Debug|x64
+		{7C272B35-77F6-F807-D28E-47BD0366FE24}.Release|x64.ActiveCfg = Release|x64
+		{7C272B35-77F6-F807-D28E-47BD0366FE24}.Release|x64.Build.0 = Release|x64
+		{1DA0F84A-14A3-DE4F-0DD6-87FFD9ADC0EC}.Debug|x64.ActiveCfg = Debug|x64
+		{1DA0F84A-14A3-DE4F-0DD6-87FFD9ADC0EC}.Debug|x64.Build.0 = Debug|x64
+		{1DA0F84A-14A3-DE4F-0DD6-87FFD9ADC0EC}.Release|x64.ActiveCfg = Release|x64
+		{1DA0F84A-14A3-DE4F-0DD6-87FFD9ADC0EC}.Release|x64.Build.0 = Release|x64
+		{099CDF1E-1156-EE4D-93F2-89B44CC72EAD}.Debug|x64.ActiveCfg = Debug|x64
+		{099CDF1E-1156-EE4D-93F2-89B44CC72EAD}.Debug|x64.Build.0 = Debug|x64
+		{099CDF1E-1156-EE4D-93F2-89B44CC72EAD}.Release|x64.ActiveCfg = Release|x64
+		{099CDF1E-1156-EE4D-93F2-89B44CC72EAD}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
