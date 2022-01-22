@@ -333,7 +333,7 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
     jassert (isPrepared = true);
     
     //GETTING SLIDER VALUE FROM WATERPHONEPLUGINAUDIOPROCESSOR CLASS
-    float dissonanceSliderValue;
+    //float dissonanceSliderValue;
     
     //WaterphonePluginAudioProcessor waterphonePluginAudioProcessor;
     //dissonanceSliderValue = waterphonePluginAudioProcessor.dissonancePotAmount;

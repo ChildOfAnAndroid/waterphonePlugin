@@ -97,7 +97,7 @@ struct SineWaveSound : public juce::SynthesiserSound
 // Go to PluginProcessor.cpp to define the functions
 
 //SINE WAVE VOICE CLASS
-struct SineWaveVoice : public juce::SynthesiserVoice, juce::Slider::Listener
+struct SineWaveVoice : public juce::SynthesiserVoice
 {
     SineWaveVoice();
     
@@ -114,6 +114,7 @@ struct SineWaveVoice : public juce::SynthesiserVoice, juce::Slider::Listener
     //GETTING DISSONANCE SLIDER VALUE FROM WATERPHONEPLUGINAUDIOPROCESSOR CLASS
 
     //float dissonanceSliderValue = dissonancePotAmount;
+    float dissonanceSliderValue { 0.5f };
     
     //void setDissonanceSliderValue(int dissonanceSlider)
     //{
