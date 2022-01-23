@@ -290,7 +290,7 @@ SineWaveVoice::SineWaveVoice(float dissonanceSliderValue, float attack) : curren
     SineWaveVoice::attack = attack;
     adsr.setSampleRate(getSampleRate());
     
-    adsr.setParameters(juce::ADSR::Parameters(attack, 0.1, 0.8, 2.0));
+    adsr.setParameters(juce::ADSR::Parameters(attack, 0.476, 0.5, 12.8));
 }
 
 
@@ -348,7 +348,7 @@ void SineWaveVoice::controllerMoved(int controllerNumber, int newCotrollerValue)
 void SineWaveVoice::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     //ADSR
-    adsr.setSampleRate(sampleRate);
+    //adsr.setSampleRate(sampleRate);
     //adsr.setParameters(adsrParams);
     
     isPrepared = true;
@@ -359,12 +359,6 @@ void SineWaveVoice::prepareToPlay(double sampleRate, int samplesPerBlock)
 void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples)
 {
     jassert (isPrepared = true);
-    
-    //GETTING SLIDER VALUE FROM WATERPHONEPLUGINAUDIOPROCESSOR CLASS
-    //float dissonanceSliderValue;
-    
-    //WaterphonePluginAudioProcessor waterphonePluginAudioProcessor;
-    //dissonanceSliderValue = waterphonePluginAudioProcessor.dissonancePotAmount;
     
     if (angleDelta != 0.0)
     {

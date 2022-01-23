@@ -64,6 +64,9 @@ public:
     float dissonancePotAmount { 0.5f };
     
     float attack { 0.5f };
+    //float decay { 0.476f };
+    //float sustain { 0.5f };
+    //float release { 12.8f };
     
     void updateSounds ();
     
