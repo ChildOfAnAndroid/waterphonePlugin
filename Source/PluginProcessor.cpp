@@ -51,7 +51,7 @@ WaterphonePluginAudioProcessor::WaterphonePluginAudioProcessor()
     //add voices and sound to the sinSynth object
     for (auto i = 0; i < 5; i++) //creates polyphony of 5
     {
-        sinSynth.addVoice(new SineWaveVoice(dissonancePotAmount));
+        sinSynth.addVoice(new SineWaveVoice());
     }
     
     sinSynth.addSound(new SineWaveSound());
@@ -248,8 +248,15 @@ void WaterphonePluginAudioProcessor::updateSounds()
     sinSynth.clearSounds();
     sinSynth.clearVoices();
     
-    (SineWaveVoice(dissonancePotAmount));
+    SineWaveVoice(dissonancePotAmount, attack);
     SineWaveSound();
+    
+    for (auto i = 0; i < 5; i++)
+    {
+        sinSynth.addVoice(new SineWaveVoice(dissonancePotAmount, attack));
+    }
+    
+    sinSynth.addSound(new SineWaveSound());
 }
 
 //==============================================================================
@@ -270,10 +277,22 @@ bool SineWaveSound::appliesToChannel (int midiChannel)
     return true;
 }
 
-SineWaveVoice::SineWaveVoice(float dissonanceSliderValue) : currentAngle(0.0), angleDelta(0.0), level(0.0), tailOff(0.0)
+SineWaveVoice::SineWaveVoice() : currentAngle(0.0), angleDelta(0.0), level(0.0), tailOff(0.0)
 {
-    juce::Logger::writeToLog("Dissonance Slider Value: " + std::to_string(dissonanceSliderValue));
+
 }
+
+SineWaveVoice::SineWaveVoice(float dissonanceSliderValue, float attack) : currentAngle(0.0), angleDelta(0.0), level(0.0), tailOff(0.0)
+{
+    SineWaveVoice::dissonanceSliderValue = dissonanceSliderValue;
+    juce::Logger::writeToLog("Dissonance Slider Value: " + std::to_string(dissonanceSliderValue));
+    
+    SineWaveVoice::attack = attack;
+    adsr.setSampleRate(getSampleRate());
+    
+    adsr.setParameters(juce::ADSR::Parameters(attack, 0.1, 0.8, 2.0));
+}
+
 
 bool SineWaveVoice::canPlaySound (juce::SynthesiserSound* sound)
 {
@@ -330,7 +349,7 @@ void SineWaveVoice::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     //ADSR
     adsr.setSampleRate(sampleRate);
-    adsr.setParameters(adsrParams);
+    //adsr.setParameters(adsrParams);
     
     isPrepared = true;
     

@@ -63,7 +63,11 @@ public:
     //SENDING DISSONANCE SLIDER VALUE TO SINEWAVEVOICE CLASS
     float dissonancePotAmount { 0.5f };
     
+    float attack { 0.5f };
+    
     void updateSounds ();
+    
+
     
     //void setDissonancePotAmount(int dissonanceSlider)
     //{
@@ -101,7 +105,8 @@ struct SineWaveSound : public juce::SynthesiserSound
 //SINE WAVE VOICE CLASS
 struct SineWaveVoice : public juce::SynthesiserVoice
 {
-    SineWaveVoice(float dissonanceSliderValue);
+    SineWaveVoice();
+    SineWaveVoice(float dissonanceSliderValue, float attack);
     
     bool canPlaySound (juce::SynthesiserSound* sound) override;
     void startNote (int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, int currentPitchWheelPosition) override;
@@ -127,12 +132,17 @@ struct SineWaveVoice : public juce::SynthesiserVoice
     //    return dissonanceSliderValue;
     //}
     
+
+    
 private:
     double currentAngle, angleDelta, level, tailOff;
     
     //ADSR
     juce::ADSR adsr;
-    juce::ADSR::Parameters adsrParams;
+    
+    float attack;
+    
+    //juce::ADSR::Parameters adsrParams;
     
     bool isPrepared {false} ;
     
