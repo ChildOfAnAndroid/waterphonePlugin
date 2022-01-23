@@ -220,4 +220,6 @@ void WaterphonePluginAudioProcessorEditor::sliderValueChanged (juce::Slider* sli
         juce::Logger::writeToLog("Dissonance Pot Amount: " + std::to_string(audioProcessor.dissonancePotAmount));
     }
     
+    audioProcessor.updateSounds();
+    
 }

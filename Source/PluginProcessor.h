@@ -52,6 +52,7 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+
     
     juce::MidiMessageCollector& getMidiMessageCollector() noexcept {return midiMessageCollector; };
     
@@ -62,6 +63,7 @@ public:
     //SENDING DISSONANCE SLIDER VALUE TO SINEWAVEVOICE CLASS
     float dissonancePotAmount { 0.5f };
     
+    void updateSounds ();
     
     //void setDissonancePotAmount(int dissonanceSlider)
     //{
@@ -99,7 +101,7 @@ struct SineWaveSound : public juce::SynthesiserSound
 //SINE WAVE VOICE CLASS
 struct SineWaveVoice : public juce::SynthesiserVoice
 {
-    SineWaveVoice();
+    SineWaveVoice(float dissonanceSliderValue);
     
     bool canPlaySound (juce::SynthesiserSound* sound) override;
     void startNote (int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, int currentPitchWheelPosition) override;
