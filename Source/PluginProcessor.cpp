@@ -373,11 +373,11 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
             while (--numSamples >= 0)
             {
                 auto currentSample = (float)((std::sin(currentAngle)
-                                              + std::sin((0.98 + (dissonanceSliderValue/10)) * currentAngle)
-                                              + std::sin((0.99 + (dissonanceSliderValue/10)) * currentAngle)
-                                              + std::sin((1.01 + (dissonanceSliderValue/10)) * currentAngle)
-                                              + std::sin((1.02 + (dissonanceSliderValue/10)) * currentAngle)
-                                              + std::sin((1.03 + (dissonanceSliderValue/10)) * currentAngle)
+                                              + std::sin((0.98 * (dissonanceSliderValue)) * currentAngle)
+                                              + std::sin((0.99 * (dissonanceSliderValue)) * currentAngle)
+                                              + std::sin((1.01 * (dissonanceSliderValue)) * currentAngle)
+                                              + std::sin((1.02 * (dissonanceSliderValue)) * currentAngle)
+                                              + std::sin((1.03 * (dissonanceSliderValue)) * currentAngle)
                                               * level));
                 
                 for (auto i = outputBuffer.getNumChannels();--i >=0;)
@@ -404,11 +404,11 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
             while (--numSamples >= 0)
             {
                 auto currentSample = (float)((std::sin(currentAngle)
-                                            + std::sin((0.98 + (dissonanceSliderValue/10)) * currentAngle)
-                                            + std::sin((0.99 + (dissonanceSliderValue/10)) * currentAngle)
-                                            + std::sin((1.01 + (dissonanceSliderValue/10)) * currentAngle)
-                                            + std::sin((1.02 + (dissonanceSliderValue/10)) * currentAngle)
-                                            + std::sin((1.03 + (dissonanceSliderValue/10)) * currentAngle)
+                                            + std::sin((0.98 * (dissonanceSliderValue)) * currentAngle)
+                                            + std::sin((0.99 * (dissonanceSliderValue)) * currentAngle)
+                                            + std::sin((1.01 * (dissonanceSliderValue)) * currentAngle)
+                                            + std::sin((1.02 * (dissonanceSliderValue)) * currentAngle)
+                                            + std::sin((1.03 * (dissonanceSliderValue)) * currentAngle)
                                             * level));
                 
                 for (auto i = outputBuffer.getNumChannels();--i >=0;)

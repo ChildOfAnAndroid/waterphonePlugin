@@ -71,8 +71,8 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
     //dissonance pot
     addAndMakeVisible (&dissonancePot);
     dissonancePot.setSliderStyle (juce::Slider::Rotary);
-    dissonancePot.setRange (0.0f, 12.0f, 0.01f); //Bottom of the pot is 0, top of the pot is 12
-    dissonancePot.setValue (0.0f);
+    dissonancePot.setRange (0.1f, 2.0f, 0.01f); //Bottom of the pot is 0, top of the pot is 12
+    dissonancePot.setValue (1.0f);
     dissonancePot.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 150, 25);
     dissonancePot.setTextValueSuffix (" DISSONANCE");
     //dissonancePot.setSkewFactor(2);
