@@ -25,7 +25,7 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
     
-    void sliderValueChanged (juce::Slider *slider) override;
+    //void sliderValueChanged (juce::Slider *slider) override;
 
 private:
     // This reference is provided as a quick way for your editor to
@@ -41,6 +41,8 @@ private:
     
     void buttonStateChanged (juce::Button *button) override;
     
+    void sliderValueChanged(juce::Slider* slider) override;
+    
     int prevButtonState;
     
     //POTENTIOMETERS
@@ -49,6 +51,8 @@ private:
     juce::Slider waterPot;
     
     juce::Slider dissonancePot;
+    
+    juce::Slider chorusWetMix;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaterphonePluginAudioProcessorEditor)
 };

@@ -52,6 +52,10 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    void setChorusWetMix(float wetMix);
+    
+    void updateSounds(float attack);
 
     
     juce::MidiMessageCollector& getMidiMessageCollector() noexcept {return midiMessageCollector; };
@@ -62,6 +66,8 @@ public:
     
     //SENDING DISSONANCE SLIDER VALUE TO SINEWAVEVOICE CLASS
     float dissonancePotAmount { 0.5f };
+    
+    float chorusWetMixAmount { 0.5f };
     
     float attack { 0.5f };
     //float decay { 0.476f };
@@ -92,6 +98,8 @@ private:
     
     juce::Synthesiser sinSynth;
     
+    juce::dsp::ProcessorChain<juce::dsp::Chorus<float>> fxChain;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaterphonePluginAudioProcessor)
 };
 
@@ -118,8 +126,10 @@ struct SineWaveVoice : public juce::SynthesiserVoice
     void pitchWheelMoved (int newPitchWheelValue) override;
     void controllerMoved (int controllerNumber, int newControllerValue) override;
         
-    void prepareToPlay (double sampleRate, int samplesPerBlock);
     void renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples) override;
+    
+    int sign(double value) { return (value >= 0.0) ? 1 : -1; }
+
     
     //GETTING DISSONANCE SLIDER VALUE FROM WATERPHONEPLUGINAUDIOPROCESSOR CLASS
 
@@ -144,6 +154,8 @@ private:
     juce::ADSR adsr;
     
     float attack;
+    
+    int pitchBendInterval;
     
     //juce::ADSR::Parameters adsrParams;
     

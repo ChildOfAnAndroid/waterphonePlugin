@@ -77,6 +77,17 @@ WaterphonePluginAudioProcessorEditor::WaterphonePluginAudioProcessorEditor (Wate
     dissonancePot.setTextValueSuffix (" DISSONANCE");
     //dissonancePot.setSkewFactor(2);
     dissonancePot.addListener (this);
+    
+    //chorus
+    addAndMakeVisible(&chorusWetMix);
+    chorusWetMix.setSliderStyle(juce::Slider::Rotary);
+    chorusWetMix.setRange (0.0f, 12.0f, 0.01f); //Bottom of the pot is 0, top of the pot is 12
+    chorusWetMix.setValue (0.0f);
+    chorusWetMix.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 150, 25);
+    chorusWetMix.setTextValueSuffix (" CHORUS");
+    //
+    chorusWetMix.addListener(this);
+
 
 }
 
@@ -106,7 +117,7 @@ void WaterphonePluginAudioProcessorEditor::paint (juce::Graphics& g)
     //bellPath.lineTo(xPos, yPos+centreBellHeight);
     bellPath.quadraticTo(xPos, yPos, xPos, yPos+centreBellHeight);
     
-    g.strokePath (bellPath, juce::PathStrokeType (bellWidth));
+    //g.strokePath (bellPath, juce::PathStrokeType (bellWidth));
 }
 
 void WaterphonePluginAudioProcessorEditor::resized()
@@ -146,9 +157,10 @@ void WaterphonePluginAudioProcessorEditor::resized()
     //}
     
     //POTENTIOMETER POSITIONING
-    airPot.setBounds (75, getHeight() / 2 + 30, 150, 150);
+    //airPot.setBounds (75, getHeight() / 2 + 30, 150, 150);
     waterPot.setBounds (425, getHeight() / 2 + 30, 150, 150);
     dissonancePot.setBounds (775, getHeight() / 2 + 30, 150, 150);
+    chorusWetMix.setBounds (75, getHeight() / 2 + 30, 150, 150);
     
     //airPot.setBounds(<#int x#>, <#int y#>, <#int width#>, <#int height#>)
     
@@ -203,6 +215,7 @@ void WaterphonePluginAudioProcessorEditor::buttonStateChanged (juce::Button *but
 
 void WaterphonePluginAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)
 {
+    audioProcessor.updateSounds();
     
     if (slider == &airPot)
     {
@@ -220,6 +233,11 @@ void WaterphonePluginAudioProcessorEditor::sliderValueChanged (juce::Slider* sli
         juce::Logger::writeToLog("Dissonance Pot Amount: " + std::to_string(audioProcessor.dissonancePotAmount));
     }
     
-    audioProcessor.updateSounds();
+    else if (slider == &chorusWetMix)
+    {
+        juce::Logger::writeToLog("Chorus wet mix: " + std::to_string(slider->getValue()));
+        
+        audioProcessor.chorusWetMixAmount = chorusWetMix.getValue();
+    }
     
 }

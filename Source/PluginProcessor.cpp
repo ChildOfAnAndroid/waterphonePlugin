@@ -136,6 +136,8 @@ void WaterphonePluginAudioProcessor::prepareToPlay (double sampleRate, int sampl
     
     sinSynth.setCurrentPlaybackSampleRate(sampleRate);
     
+    fxChain.prepare({sampleRate, (juce::uint32)samplesPerBlock, (juce::uint32)getTotalNumOutputChannels()});
+    
 }
 
 void WaterphonePluginAudioProcessor::releaseResources()
@@ -214,6 +216,13 @@ void WaterphonePluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
     
     //synth.renderNextBlock(audioBusBuffer, midiMessages, 0, audioBusBuffer.getNumSamples());
     sinSynth.renderNextBlock(audioBusBuffer, midiMessages, 0, audioBusBuffer.getNumSamples());
+    
+    // Adding fx to the audio block
+    auto block = juce::dsp::AudioBlock<float>(buffer);
+    auto blockToUse = block.getSubBlock((size_t)0, (size_t)buffer.getNumSamples());
+    auto contextToUse = juce::dsp::ProcessContextReplacing<float>(blockToUse);
+    
+    fxChain.process(contextToUse);
 
 
 }
@@ -243,13 +252,18 @@ void WaterphonePluginAudioProcessor::setStateInformation (const void* data, int 
     // whose contents will have been created by the getStateInformation() call.
 }
 
+void WaterphonePluginAudioProcessor::setChorusWetMix(float wetMix)
+{
+    fxChain.get<0>().setMix(wetMix);
+}
+
 void WaterphonePluginAudioProcessor::updateSounds()
 {
     sinSynth.clearSounds();
     sinSynth.clearVoices();
     
-    SineWaveVoice(dissonancePotAmount, attack);
-    SineWaveSound();
+    //SineWaveVoice(dissonancePotAmount, attack);
+    //SineWaveSound();
     
     for (auto i = 0; i < 5; i++)
     {
@@ -306,13 +320,14 @@ void SineWaveVoice::startNote (int midiNoteNumber, float velocity, juce::Synthes
     level = velocity * 0.25;
     tailOff = 0.0;
     
+    //ADSR
+    adsr.noteOn();
+    
     auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
     auto cyclesPerSample = cyclesPerSecond / getSampleRate();  //GENERATES PITCH FOR SIN WAVE
     
     angleDelta = cyclesPerSample * 2.0 * juce::MathConstants<double>::pi;
     
-    //ADSR
-    adsr.noteOn();
 }
 
 void SineWaveVoice::stopNote (float velocity, bool allowTailOff)
@@ -337,7 +352,30 @@ void SineWaveVoice::stopNote (float velocity, bool allowTailOff)
 
 void SineWaveVoice::pitchWheelMoved (int newPitchWheelValue)
 {
+    int maxValue = 16383;
+    int minValue = 0;
+    int meanValue = 8192;
+    
+    int note = getCurrentlyPlayingNote();
+    auto cyclesPerSecond = juce::MidiMessage::getMidiNoteInHertz(note);
+    
+    if (newPitchWheelValue < 8192)
+    {
+        auto lowFreq = juce::MidiMessage::getMidiNoteInHertz(note - pitchBendInterval);
+        cyclesPerSecond = juce::jmap((float)newPitchWheelValue, (float)minValue, (float)meanValue, (float)lowFreq, (float)cyclesPerSecond);
+    }
 
+    else if (newPitchWheelValue > 8192)
+    {
+        auto highFreq = juce::MidiMessage::getMidiNoteInHertz(note + pitchBendInterval);
+        cyclesPerSecond = juce::jmap((float)newPitchWheelValue, (float)meanValue, (float)maxValue, (float)cyclesPerSecond, (float)highFreq);
+    }
+    
+    auto cyclesPerSample = cyclesPerSecond / getSampleRate();
+    
+    angleDelta = cyclesPerSample * 2.0 * juce::MathConstants<double>::pi;
+    
+    juce::Logger::writeToLog("Pitch wheel value: " + std::to_string(newPitchWheelValue));
 }
 
 void SineWaveVoice::controllerMoved(int controllerNumber, int newCotrollerValue)
@@ -345,20 +383,8 @@ void SineWaveVoice::controllerMoved(int controllerNumber, int newCotrollerValue)
 
 }
 
-void SineWaveVoice::prepareToPlay(double sampleRate, int samplesPerBlock)
-{
-    //ADSR
-    //adsr.setSampleRate(sampleRate);
-    //adsr.setParameters(adsrParams);
-    
-    isPrepared = true;
-    
-}
-
-
 void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, int startSample, int numSamples)
 {
-    jassert (isPrepared = true);
     
     if (angleDelta != 0.0)
     {
@@ -366,13 +392,13 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
         {
             while (--numSamples >= 0)
             {
-                auto currentSample = (float)((std::sin(currentAngle)
+                auto currentSample = (float)((sign(std::sin(currentAngle)
                                               + std::sin((0.98 * (dissonanceSliderValue)) * currentAngle)
                                               + std::sin((0.99 * (dissonanceSliderValue)) * currentAngle)
                                               + std::sin((1.01 * (dissonanceSliderValue)) * currentAngle)
                                               + std::sin((1.02 * (dissonanceSliderValue)) * currentAngle)
-                                              + std::sin((1.03 * (dissonanceSliderValue)) * currentAngle)
-                                              * level));
+                                              + std::sin((1.03 * (dissonanceSliderValue)) * currentAngle))
+                                              * tailOff * level ));
                 
                 for (auto i = outputBuffer.getNumChannels();--i >=0;)
                 {
@@ -403,7 +429,7 @@ void SineWaveVoice::renderNextBlock (juce::AudioBuffer< float > &outputBuffer, i
                                             + std::sin((1.01 * (dissonanceSliderValue)) * currentAngle)
                                             + std::sin((1.02 * (dissonanceSliderValue)) * currentAngle)
                                             + std::sin((1.03 * (dissonanceSliderValue)) * currentAngle)
-                                            * level));
+                                            * level * adsr.getNextSample()));
                 
                 for (auto i = outputBuffer.getNumChannels();--i >=0;)
                 {
